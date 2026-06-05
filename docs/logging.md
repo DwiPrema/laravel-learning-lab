@@ -184,6 +184,56 @@ Logging is commonly used for:
 
 ---
 
+# Log Formatters
+
+A formatter determines how log records are formatted before being written by a handler.
+
+Common output formats include:
+
+* Plain Text
+* JSON
+* Custom Formats
+
+Flow:
+
+```text
+Log Record
+    ↓
+Handler
+    ↓
+Formatter
+    ↓
+Output
+```
+
+Example:
+
+```php
+Log::info("User login", [
+    "id" => 1,
+    "email" => "user@example.com"
+]);
+```
+
+Plain text output:
+
+```text
+[2026-06-05 12:00:00] local.INFO: User login {"id":1,"email":"user@example.com"}
+```
+
+JSON output:
+
+```json
+{
+    "message": "User login",
+    "level": "INFO"
+}
+```
+
+Laravel uses Monolog under the hood, allowing formatter customization through custom logging channels.
+
+---
+
 # Conclusion
 
 Laravel Logging is an essential feature for monitoring and debugging applications.
