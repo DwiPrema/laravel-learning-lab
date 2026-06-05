@@ -43,7 +43,10 @@ use Illuminate\Support\Facades\Log;
 Example usage:
 
 ```php
-Log::info("User logged in successfully");
+Log::info("Hello Info");
+Log::warning("Hello Warning");
+Log::error("Hello error");
+Log::critical("Hello critical");
 ```
 
 ---
