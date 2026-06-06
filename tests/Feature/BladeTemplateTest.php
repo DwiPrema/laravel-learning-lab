@@ -17,4 +17,9 @@ class BladeTemplateTest extends TestCase
     {
         $this->view("blade-template.hello", ["name" => "Dwi"])->assertSeeText("Dwi");
     }
+
+    public function testDisabledBlade()
+    {
+        $this->get('/disabled-blade')->assertDontSee("Prema")->assertSeeText('Hello {{$name}}');
+    }
 }
