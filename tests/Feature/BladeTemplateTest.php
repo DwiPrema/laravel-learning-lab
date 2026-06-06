@@ -22,4 +22,13 @@ class BladeTemplateTest extends TestCase
     {
         $this->get('/disabled-blade')->assertDontSee("Prema")->assertSeeText('Hello {{$name}}');
     }
+
+    public function testIfStatement()
+    {
+        $this->view("blade-template.if-statement", ["hobbies" => []])->assertSeeText("I don't have any hobbies!");
+
+        $this->view("blade-template.if-statement", ["hobbies" => ["playing guitar"]])->assertSeeText("I have one hobby!");
+
+        $this->view("blade-template.if-statement", ["hobbies" => ["playing guitar", "coding"]])->assertSeeText("I have multiple hobbies!");
+    }
 }
