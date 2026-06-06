@@ -31,4 +31,11 @@ class BladeTemplateTest extends TestCase
 
         $this->view("blade-template.if-statement", ["hobbies" => ["playing guitar", "coding"]])->assertSeeText("I have multiple hobbies!");
     }
+
+    public function testUnlessStatement()
+    {
+        $this->view("blade-template.unless-statement", ["isAdmin" => false])->assertSeeText("You're not admin!");
+
+        $this->view("blade-template.unless-statement", ["isAdmin" => true])->assertDontSeeText("You're not admin!");
+    }
 }
