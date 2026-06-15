@@ -44,7 +44,16 @@ class BladeTemplateTest extends TestCase
         $this->view("blade-template.isset-empty", ["name" => "", "hobbies" => []])->assertSeeText("I don't have any hobbies");
     }
 
-    public function testEnv() {
+    public function testEnv() 
+    {
         $this->view("blade-template.env", [])->assertSeeText("This is test environment");
+    }
+
+    public function testSwitchStatement()
+    {
+        $this->view("blade-template.switch-statement", ["value" => "A"])->assertSeeText("Memuaskan");
+        $this->view("blade-template.switch-statement", ["value" => "B"])->assertSeeText("Bagus");
+        $this->view("blade-template.switch-statement", ["value" => "C"])->assertSeeText("Cukup");
+        $this->view("blade-template.switch-statement", ["value" => "D"])->assertSeeText("Tidak Lulus");
     }
 }
