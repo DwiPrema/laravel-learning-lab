@@ -38,4 +38,9 @@ class BladeTemplateTest extends TestCase
 
         $this->view("blade-template.unless-statement", ["isAdmin" => true])->assertDontSeeText("You're not admin!");
     }
+
+    public function testIssetAndEmpty()
+    {
+        $this->view("blade-template.isset-empty", ["name" => "", "hobbies" => []])->assertSeeText("I don't have any hobbies");
+    }
 }
