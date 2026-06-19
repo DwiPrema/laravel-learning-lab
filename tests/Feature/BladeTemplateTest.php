@@ -87,4 +87,11 @@ class BladeTemplateTest extends TestCase
         ->assertSeeText("Playing Guitar")
         ->assertDontSeeText("Tidak Punya Hobby");
     }
+
+    public function testRaw()
+    {
+        $this->view("blade-template.raw", [])
+        ->assertSeeText("Dwi")
+        ->assertSeeText("Texas");
+    }
 }
