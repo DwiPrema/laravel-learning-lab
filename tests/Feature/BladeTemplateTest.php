@@ -132,4 +132,17 @@ class BladeTemplateTest extends TestCase
         ->assertSee('<li class="red bold">Coding</li>', false)
         ->assertSee('<li class="red">Playing Guitar</li>', false);
     }
+
+    public function testInclude()
+    {
+        $this->view("blade-template.include", [])
+        ->assertSeeText("Dwi Premayasa")
+        ->assertSeeText("Selamat Datang Di Website Kami")
+        ->assertSeeText("Selamat Datang Ya!");
+
+        $this->view("blade-template.include", ["title" => "Premayasa"])
+        ->assertSeeText("Premayasa")
+        ->assertSeeText("Selamat Datang Di Website Kami")
+        ->assertSeeText("Selamat Datang Ya!");
+    }
 }
