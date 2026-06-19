@@ -44,7 +44,7 @@ class BladeTemplateTest extends TestCase
         $this->view("blade-template.isset-empty", ["name" => "", "hobbies" => []])->assertSeeText("I don't have any hobbies");
     }
 
-    public function testEnv() 
+    public function testEnv()
     {
         $this->view("blade-template.env", [])->assertSeeText("This is test environment");
     }
@@ -60,23 +60,31 @@ class BladeTemplateTest extends TestCase
     public function testForLoop()
     {
         $this->view("blade-template.for", ["limit" => 10])
-        ->assertSeeText("0")
-        ->assertSeeText("1")
-        ->assertSeeText("2")
-        ->assertSeeText("3")
-        ->assertSeeText("4")
-        ->assertSeeText("5")
-        ->assertSeeText("6") 
-        ->assertSeeText("7")
-        ->assertSeeText("8")
-        ->assertSeeText("9");
+            ->assertSeeText("0")
+            ->assertSeeText("1")
+            ->assertSeeText("2")
+            ->assertSeeText("3")
+            ->assertSeeText("4")
+            ->assertSeeText("5")
+            ->assertSeeText("6")
+            ->assertSeeText("7")
+            ->assertSeeText("8")
+            ->assertSeeText("9");
     }
 
     public function testForEach()
     {
         $this->view("blade-template.for-each", ["hobbies" => ["playing game", "coding", "playing guitar"]])
-        ->assertSeeText("playing game")
-        ->assertSeeText("coding")
-        ->assertSeeText("playing guitar");
+            ->assertSeeText("playing game")
+            ->assertSeeText("coding")
+            ->assertSeeText("playing guitar");
+    }
+
+    public function testForElse()
+    {
+        $this->view("blade-template.forelse", ["hobbies" => ["Coding", "Playing Guitar"]])
+        ->assertSeeText("Coding")
+        ->assertSeeText("Playing Guitar")
+        ->assertDontSeeText("Tidak Punya Hobby");
     }
 }
