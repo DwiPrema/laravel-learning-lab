@@ -109,4 +109,11 @@ class BladeTemplateTest extends TestCase
         ->assertSeeText("The current value is 8")
         ->assertSeeText("The current value is 9");
     }
+
+    public function testLoopVariable()
+    {
+        $this->view("blade-template.loop-variable", ["hobbies" => ["Coding", "Playing Guitar"]])
+        ->assertSeeText("Coding")
+        ->assertSeeText("Playing Guitar");
+    }
 }
