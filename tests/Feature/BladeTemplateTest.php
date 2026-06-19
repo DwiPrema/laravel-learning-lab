@@ -158,7 +158,22 @@ class BladeTemplateTest extends TestCase
                 "owner" => false,
             ]
         ])
-        ->assertSeeText("Selamat Datang Owner")
-        ->assertSeeText("Selamat Datang Dwi");
+            ->assertSeeText("Selamat Datang Owner")
+            ->assertSeeText("Selamat Datang Dwi");
+    }
+
+    public function testEach()
+    {
+        $this->view("blade-template.each", ["users" => [
+            [
+                "name" => "Dwi",
+                "hobbies" => ["Coding", "Playing Guitar"]
+            ],
+            [
+                "name" => "Premayasa",
+                "hobbies" => ["Coding", "Gaming"]
+            ]
+        ]])
+            ->assertSeeInOrder([".red", "Dwi", "Coding", "Playing Guitar", "Premayasa", "Coding", "Gaming"]);
     }
 }
