@@ -83,38 +83,38 @@ class BladeTemplateTest extends TestCase
     public function testForElse()
     {
         $this->view("blade-template.forelse", ["hobbies" => ["Coding", "Playing Guitar"]])
-        ->assertSeeText("Coding")
-        ->assertSeeText("Playing Guitar")
-        ->assertDontSeeText("Tidak Punya Hobby");
+            ->assertSeeText("Coding")
+            ->assertSeeText("Playing Guitar")
+            ->assertDontSeeText("Tidak Punya Hobby");
     }
 
     public function testRaw()
     {
         $this->view("blade-template.raw", [])
-        ->assertSeeText("Dwi")
-        ->assertSeeText("Texas");
+            ->assertSeeText("Dwi")
+            ->assertSeeText("Texas");
     }
 
     public function testWhile()
     {
         $this->view("blade-template.while", ["i" => 0])
-        ->assertSeeText("The current value is 0")
-        ->assertSeeText("The current value is 1")
-        ->assertSeeText("The current value is 2")
-        ->assertSeeText("The current value is 3")
-        ->assertSeeText("The current value is 4")
-        ->assertSeeText("The current value is 5")
-        ->assertSeeText("The current value is 6")
-        ->assertSeeText("The current value is 7")
-        ->assertSeeText("The current value is 8")
-        ->assertSeeText("The current value is 9");
+            ->assertSeeText("The current value is 0")
+            ->assertSeeText("The current value is 1")
+            ->assertSeeText("The current value is 2")
+            ->assertSeeText("The current value is 3")
+            ->assertSeeText("The current value is 4")
+            ->assertSeeText("The current value is 5")
+            ->assertSeeText("The current value is 6")
+            ->assertSeeText("The current value is 7")
+            ->assertSeeText("The current value is 8")
+            ->assertSeeText("The current value is 9");
     }
 
     public function testLoopVariable()
     {
         $this->view("blade-template.loop-variable", ["hobbies" => ["Coding", "Playing Guitar"]])
-        ->assertSeeText("Coding")
-        ->assertSeeText("Playing Guitar");
+            ->assertSeeText("Coding")
+            ->assertSeeText("Playing Guitar");
     }
 
     public function testClass()
@@ -129,20 +129,36 @@ class BladeTemplateTest extends TestCase
                 "love" => false
             ],
         ]])
-        ->assertSee('<li class="red bold">Coding</li>', false)
-        ->assertSee('<li class="red">Playing Guitar</li>', false);
+            ->assertSee('<li class="red bold">Coding</li>', false)
+            ->assertSee('<li class="red">Playing Guitar</li>', false);
     }
 
     public function testInclude()
     {
         $this->view("blade-template.include", [])
-        ->assertSeeText("Dwi Premayasa")
-        ->assertSeeText("Selamat Datang Di Website Kami")
-        ->assertSeeText("Selamat Datang Ya!");
+            ->assertSeeText("Dwi Premayasa")
+            ->assertSeeText("Selamat Datang Di Website Kami")
+            ->assertSeeText("Selamat Datang Ya!");
 
         $this->view("blade-template.include", ["title" => "Premayasa"])
-        ->assertSeeText("Premayasa")
-        ->assertSeeText("Selamat Datang Di Website Kami")
-        ->assertSeeText("Selamat Datang Ya!");
+            ->assertSeeText("Premayasa")
+            ->assertSeeText("Selamat Datang Di Website Kami")
+            ->assertSeeText("Selamat Datang Ya!");
+    }
+
+    public function testIncludeCondition()
+    {
+        $this->view("blade-template.include-condition", [
+            "user" => [
+                "name" => "Dwi",
+                "owner" => true,
+            ],
+            [
+                "name" => "Premayasa",
+                "owner" => false,
+            ]
+        ])
+        ->assertSeeText("Selamat Datang Owner")
+        ->assertSeeText("Selamat Datang Dwi");
     }
 }
