@@ -116,4 +116,20 @@ class BladeTemplateTest extends TestCase
         ->assertSeeText("Coding")
         ->assertSeeText("Playing Guitar");
     }
+
+    public function testClass()
+    {
+        $this->view("blade-template.css-class", ["hobbies" => [
+            [
+                "name" => "Coding",
+                "love" => true
+            ],
+            [
+                "name" => "Playing Guitar",
+                "love" => false
+            ],
+        ]])
+        ->assertSee('<li class="red bold">Coding</li>', false)
+        ->assertSee('<li class="red">Playing Guitar</li>', false);
+    }
 }
