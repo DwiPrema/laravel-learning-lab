@@ -176,4 +176,16 @@ class BladeTemplateTest extends TestCase
         ]])
             ->assertSeeInOrder([".red", "Dwi", "Coding", "Playing Guitar", "Premayasa", "Coding", "Gaming"]);
     }
+
+    public function testForm()
+    {
+        $this->view("blade-template.form", ["user" => [
+            "premium" => false,
+            "name" => "Dwi",
+            "admin" => false
+        ]])
+            ->assertDontSee('checked')
+            ->assertSee("Dwi")
+            ->assertSee("readonly");
+    }
 }
