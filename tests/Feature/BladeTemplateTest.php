@@ -188,4 +188,11 @@ class BladeTemplateTest extends TestCase
             ->assertSee("Dwi")
             ->assertSee("readonly");
     }
+
+    public function testCsrf()
+    {
+        $this->view("blade-template.csrf", [])
+        ->assertSee("hidden")
+        ->assertSee("_token");
+    }
 }
