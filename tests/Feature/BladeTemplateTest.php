@@ -208,4 +208,24 @@ class BladeTemplateTest extends TestCase
         ->assertSeeText("name is required")
         ->assertSeeText("password is required");
     }
+
+    public function testParent() 
+    {
+        $this->view("blade-template.child", [])
+        ->assertSeeText("Home")
+        ->assertSeeText("Deskripsi Header")
+        ->assertSeeText("ini adalah konten deskripsi")
+        ->assertSeeText("Default Header")
+        ->assertDontSeeText("Default Content");
+    }
+
+    public function testInheritanceWithoutOverride() 
+    {
+        $this->view("blade-template.child-default", [])
+        ->assertSeeText("Home")
+        ->assertSeeText("Default Header")
+        ->assertSeeText("Default Content")
+        ->assertDontSeeText("Deskripsi Header")
+        ->assertDontSeeText("ini adalah konten deskripsi");
+    }
 }
