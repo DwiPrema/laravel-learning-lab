@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\SayHello;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -12,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(SayHello::class, function(){
+        $this->app->singleton(SayHello::class, function () {
             return new SayHello();
         });
     }
@@ -22,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Blade::directive("hello", function ($expression) {
+            return "<?php echo 'Hello ' . $expression; ?>";
+        });
     }
 }

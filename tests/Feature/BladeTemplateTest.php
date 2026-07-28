@@ -234,4 +234,10 @@ class BladeTemplateTest extends TestCase
         $this->view('blade-template.service-injection', ['name' => "Dwi"])
         ->assertSeeText("Hello Dwi");
     }
+
+    public function testExtendingBlade()
+    {
+        $this->view('blade-template.extending', ['name' => 'Dwi'])
+        ->assertSeeText("Hello Dwi");
+    }
 }
