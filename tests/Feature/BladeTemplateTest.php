@@ -228,4 +228,10 @@ class BladeTemplateTest extends TestCase
         ->assertDontSeeText("Deskripsi Header")
         ->assertDontSeeText("ini adalah konten deskripsi");
     }
+
+    public function testInject()
+    {
+        $this->view('blade-template.service-injection', ['name' => "Dwi"])
+        ->assertSeeText("Hello Dwi");
+    }
 }
