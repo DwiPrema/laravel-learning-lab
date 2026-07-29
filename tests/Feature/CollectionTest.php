@@ -242,4 +242,44 @@ class CollectionTest extends TestCase
             return $value == "Prema";
         }));
     }
+
+    public function testGrouping() 
+    {
+        $collection = collect([
+            [
+                "name" => "Dwi",
+                "department" => "IT",
+            ],
+            [
+                "name" => "Prema",
+                "department" => "IT",
+            ],
+            [
+                "name" => "Yasa",
+                "department" => "HR",
+            ],
+        ]);
+
+        $result = $collection->groupBy("department");
+
+        assertEquals([
+            "IT" => collect([
+                [
+                "name" => "Dwi",
+                "department" => "IT",
+            ],
+            [
+                "name" => "Prema",
+                "department" => "IT",
+            ],
+            ]),
+
+            "HR" => collect([
+                [
+                "name" => "Yasa",
+                "department" => "HR",
+            ],
+            ])
+        ], $result->all());
+    }
 }
