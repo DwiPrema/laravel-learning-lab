@@ -381,4 +381,13 @@ class CollectionTest extends TestCase
         $final_result = $result->count();
         $this->assertTrue($final_result == 5);
     }
+
+    public function testCheckingExistence() 
+    {
+        $collection = collect([1,2,3,4,5,6,7,8,9]);
+        $this->assertTrue($collection->isNotEmpty());
+        $this->assertFalse($collection->isEmpty());
+        $this->assertTrue($collection->contains(1));
+        $this->assertFalse($collection->contains(10));
+    }
 }
