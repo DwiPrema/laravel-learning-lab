@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Data\Person;
 use Tests\TestCase;
 
+use function PHPUnit\Framework\assertEquals;
+
 class CollectionTest extends TestCase
 {
     public function testCreateCollection()
@@ -171,5 +173,13 @@ class CollectionTest extends TestCase
         });
 
         $this->assertEqualsCanonicalizing(["Coding", "Playing Game", "Reading", "Playing Guitar"], $result->all());
+    }
+
+    public function testStringRepresentation()
+    {
+        $collection = collect(["Dwi", "Prema", "Yasa"]);
+
+        assertEquals("Dwi-Prema-Yasa", $collection->join("-"));
+        assertEquals("Dwi, Prema and Yasa", $collection->join(", ", " and "));
     }
 }
