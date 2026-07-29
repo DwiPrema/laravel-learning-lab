@@ -138,4 +138,38 @@ class CollectionTest extends TestCase
             ],
         ], $collection4->toArray());
     }
+
+    public function testCollapse()
+    {
+        $collection = collect([
+            [1,2,3],
+            [4,5,6],
+            [7,8,9],
+        ]);
+
+        $result = $collection->collapse();
+
+        $this->assertEqualsCanonicalizing([1,2,3,4,5,6,7,8,9], $result->all());
+    }
+
+    public function testFlatMap()
+    {
+        $collection = collect([
+            [
+                "name" => "Dwi",
+                "hobbies" => ["Coding", "Playing Game"]
+            ],
+            [
+                "name" => "Prema",
+                "hobbies" => ["Reading", "Playing Guitar"]
+            ]
+        ]);
+
+        $result = $collection->flatMap(function($item){
+            $hobbies = $item["hobbies"];
+            return $hobbies;
+        });
+
+        $this->assertEqualsCanonicalizing(["Coding", "Playing Game", "Reading", "Playing Guitar"], $result->all());
+    }
 }
