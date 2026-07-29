@@ -8,8 +8,8 @@ Laravel learning repository from basic to intermediate.
 |---|---|
 | ✅ Finish | Laravel Logging |
 | ✅ Finish | Laravel Blade Template |
-| 🚧 In Progress | Laravel Collection |
-| ⏳ Pending | Laravel Database |
+| ✅ Finish | Laravel Collection |
+| 🚧 Pending | Laravel Database |
 | ⏳ Pending | Laravel Eloquent |
 | ⏳ Pending | Laravel Validation |
 | ⏳ Pending | Laravel Eloquent API Resource |
