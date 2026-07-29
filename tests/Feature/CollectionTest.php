@@ -390,4 +390,14 @@ class CollectionTest extends TestCase
         $this->assertTrue($collection->contains(1));
         $this->assertFalse($collection->contains(10));
     }
+
+    public function testOrdering()
+    {
+        $collection = collect([1,3,2,4,5,7,6,8,9]);
+        $result = $collection->sort();
+        $this->assertEquals([1,2,3,4,5,6,7,8,9], $result->values()->all());
+
+        $result = $collection->sortDesc();
+        $this->assertEquals([9,8,7,6,5,4,3,2,1], $result->values()->all());
+    }
 }
