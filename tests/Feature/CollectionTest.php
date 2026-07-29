@@ -144,14 +144,14 @@ class CollectionTest extends TestCase
     public function testCollapse()
     {
         $collection = collect([
-            [1,2,3],
-            [4,5,6],
-            [7,8,9],
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
         ]);
 
         $result = $collection->collapse();
 
-        $this->assertEqualsCanonicalizing([1,2,3,4,5,6,7,8,9], $result->all());
+        $this->assertEqualsCanonicalizing([1, 2, 3, 4, 5, 6, 7, 8, 9], $result->all());
     }
 
     public function testFlatMap()
@@ -167,7 +167,7 @@ class CollectionTest extends TestCase
             ]
         ]);
 
-        $result = $collection->flatMap(function($item){
+        $result = $collection->flatMap(function ($item) {
             $hobbies = $item["hobbies"];
             return $hobbies;
         });
@@ -181,5 +181,34 @@ class CollectionTest extends TestCase
 
         assertEquals("Dwi-Prema-Yasa", $collection->join("-"));
         assertEquals("Dwi, Prema and Yasa", $collection->join(", ", " and "));
+    }
+
+    public function testFilter()
+    {
+        $collection = collect([
+            "Dwi" => "100",
+            "Prema" => "90",
+            "Yasa" => "70",
+        ]);
+
+        $result = $collection->filter(function ($value, $key) {
+            return $value >= 80;
+        });
+
+        $this->assertEquals([
+            "Dwi" => "100",
+            "Prema" => "90"
+        ], $result->all());
+    }
+
+    public function testFIlterIndex()
+    {
+        $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+        $result = $collection->filter(function ($value, $key) {
+            return $value % 2 == 0;
+        });
+
+        $this->assertEquals([2, 4, 6, 8, 10], $result->values()->all());
     }
 }
