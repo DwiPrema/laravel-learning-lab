@@ -243,7 +243,7 @@ class CollectionTest extends TestCase
         }));
     }
 
-    public function testGrouping() 
+    public function testGrouping()
     {
         $collection = collect([
             [
@@ -265,71 +265,83 @@ class CollectionTest extends TestCase
         assertEquals([
             "IT" => collect([
                 [
-                "name" => "Dwi",
-                "department" => "IT",
-            ],
-            [
-                "name" => "Prema",
-                "department" => "IT",
-            ],
+                    "name" => "Dwi",
+                    "department" => "IT",
+                ],
+                [
+                    "name" => "Prema",
+                    "department" => "IT",
+                ],
             ]),
 
             "HR" => collect([
                 [
-                "name" => "Yasa",
-                "department" => "HR",
-            ],
+                    "name" => "Yasa",
+                    "department" => "HR",
+                ],
             ])
         ], $result->all());
     }
 
-    public function testSlice(){
-        $collection = collect([1,2,3,4,5,6,7,8,9]);
+    public function testSlice()
+    {
+        $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
         $result = $collection->slice(3);
-        $this->assertEqualsCanonicalizing([4,5,6,7,8,9], $result->values()->all());
+        $this->assertEqualsCanonicalizing([4, 5, 6, 7, 8, 9], $result->values()->all());
 
-        $result = $collection->slice(3,2);
-        $this->assertEqualsCanonicalizing([4,5], $result->values()->all());
+        $result = $collection->slice(3, 2);
+        $this->assertEqualsCanonicalizing([4, 5], $result->values()->all());
     }
 
-    public function testTake() 
+    public function testTake()
     {
-        $collection = collect([1,2,3,4,5,6,7,8,9]);
+        $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
         $result = $collection->take(3);
 
-        $this->assertEqualsCanonicalizing([1,2,3], $result->values()->all());
+        $this->assertEqualsCanonicalizing([1, 2, 3], $result->values()->all());
 
         $result = $collection->takeUntil(function ($value, $key) {
             return $value == 3;
         });
 
-        $this->assertEqualsCanonicalizing([1,2], $result->values()->all());
+        $this->assertEqualsCanonicalizing([1, 2], $result->values()->all());
 
         $result = $collection->takeWhile(function ($value, $key) {
-            return $value <=5;
-        }); 
+            return $value <= 5;
+        });
 
-        $this->assertEqualsCanonicalizing([1,2,3,4,5], $result->values()->all());
+        $this->assertEqualsCanonicalizing([1, 2, 3, 4, 5], $result->values()->all());
     }
 
     public function testSkip()
     {
-        $collection = collect([1,2,3,4,5,6,7,8,9]);
+        $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
         $result = $collection->skip(3);
 
-        $this->assertEqualsCanonicalizing([4,5,6,7,8,9], $result->values()->all());
+        $this->assertEqualsCanonicalizing([4, 5, 6, 7, 8, 9], $result->values()->all());
 
         $result = $collection->skipUntil(function ($value, $key) {
             return $value == 5;
         });
 
-        $this->assertEqualsCanonicalizing([5, 6,7,8,9], $result->values()->all());
+        $this->assertEqualsCanonicalizing([5, 6, 7, 8, 9], $result->values()->all());
 
         $result = $collection->skipWhile(function ($value, $key) {
-            return $value <=4;
-        }); 
+            return $value <= 4;
+        });
 
-        $this->assertEqualsCanonicalizing([5,6,7,8,9], $result->values()->all());
+        $this->assertEqualsCanonicalizing([5, 6, 7, 8, 9], $result->values()->all());
     }
-    
+
+    public function testChunk()
+    {
+        $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+        $result = $collection->chunk(3);
+
+        $this->assertEqualsCanonicalizing([1, 2, 3], $result->values()->all()[0]->values()->all());
+        $this->assertEqualsCanonicalizing([4, 5, 6], $result->values()->all()[1]->values()->all());
+        $this->assertEqualsCanonicalizing([7, 8, 9], $result->values()->all()[2]->values()->all());
+        $this->assertEqualsCanonicalizing([10], $result->values()->all()[3]->values()->all());
+    }
 }
