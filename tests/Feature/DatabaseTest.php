@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use \Illuminate\Database\QueryException;
@@ -176,6 +177,107 @@ class DatabaseTest extends TestCase
         $collection = DB::table('categories')->select(['id_categories', 'name'])->get();
         self::assertNotNull($collection);
 
+        $collection->each(function ($item) {
+            Log::info(json_encode($item));
+        });
+    }
+
+    public function insertCategories()
+    {
+        DB::table("categories")->insert([
+            "id_categories" => 1,
+            "name" => "smartphone",
+            "description" => "smartphone category",
+            "created_at" => "2020-10-10 10:10:10",
+
+        ]);
+        DB::table("categories")->insert([
+            "id_categories" => 2,
+            "name" => "food",
+            "description" => "food category",
+            "created_at" => "2020-10-10 10:10:10",
+
+        ]);
+        DB::table("categories")->insert([
+            "id_categories" => 3,
+            "name" => "laptop",
+            "description" => "laptop category",
+            "created_at" => "2020-10-10 10:10:10",
+
+        ]);
+        DB::table("categories")->insert([
+            "id_categories" => 4,
+            "name" => "fashion",
+            "description" => "fashion category",
+            "created_at" => "2020-10-10 10:10:10",
+
+        ]);
+    }
+
+    public function testWhere()
+    {
+        $this->insertCategories();
+
+        $collection = DB::table('categories')->where(function(Builder $builder){
+            $builder->where('id_categories', '=', 1);
+            $builder->orWhere('id_categories', '=', 2);
+
+        })->get();
+
+        self::assertCount(2, $collection);
+        $collection->each(function ($item) {
+            Log::info(json_encode($item));
+        });
+    }
+
+    public function testWhereBetween()
+    {
+        $this->insertCategories();
+
+        $collection = DB::table("categories")
+        ->whereBetween("created_at", ["2020-09-10 10:10:10", "2020-11-10 10:10:10"])
+        ->get();
+
+        self::assertCount(4, $collection);
+        $collection->each(function ($item) {
+            Log::info(json_encode($item));
+        });
+    }
+
+    public function testWhereIn()
+    {
+        $this->insertCategories();
+
+        $collection = DB::table('categories')->whereIn("id_categories", [1,2])->get();
+
+        self::assertCount(2, $collection);
+        $collection->each(function ($item) {
+            Log::info(json_encode($item));
+        });
+    }
+
+    public function testWhereNotNull()
+    {
+        $this->insertCategories();
+
+        $collection = DB::table("categories")
+        ->whereNotNull('description')->get();
+
+        self::assertCount(4, $collection);
+        $collection->each(function ($item) {
+            Log::info(json_encode($item));
+        });
+    }
+
+    public function testWhereDate()
+    {
+        $this->insertCategories();
+
+        $collection = DB::table("categories")
+        ->whereDate("created_at", "2020-10-10")
+        ->get();
+
+        self::assertCount(4, $collection);
         $collection->each(function ($item) {
             Log::info(json_encode($item));
         });
