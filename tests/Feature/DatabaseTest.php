@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use \Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 use function PHPUnit\Framework\assertEquals;
 
@@ -166,5 +167,17 @@ class DatabaseTest extends TestCase
 
         $result = DB::select("select count(id_categories) as total from categories");
         self::assertEquals(2, $result[0]->total);
+    }
+
+    public function testSelect()
+    {
+        $this->testInsert();
+
+        $collection = DB::table('categories')->select(['id_categories', 'name'])->get();
+        self::assertNotNull($collection);
+
+        $collection->each(function ($item) {
+            Log::info(json_encode($item));
+        });
     }
 }
