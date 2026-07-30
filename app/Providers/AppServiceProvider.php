@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use App\Services\SayHello;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        DB::listen(function (QueryExecuted $query){
+            Log::info($query->sql);
+        });
+
         Blade::directive("hello", function ($expression) {
             return "<?php echo 'Hello ' . $expression; ?>";
         });
