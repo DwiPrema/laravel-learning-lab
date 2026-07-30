@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use \Illuminate\Database\QueryException;
 
+use function PHPUnit\Framework\assertEquals;
+
 class DatabaseTest extends TestCase
 {
     protected function setUp(): void
@@ -148,5 +150,21 @@ class DatabaseTest extends TestCase
 
         $result = DB::select('select * from categories');
         self::assertCount(0, $result);
+    }
+
+    public function testInsert()
+    {
+        DB::table('categories')->insert([
+            'id_categories' => 1,
+            'name' => 'Gadget',
+        ]);
+
+        DB::table('categories')->insert([
+            'id_categories' => 2,
+            'name' => 'Food',
+        ]);
+
+        $result = DB::select("select count(id_categories) as total from categories");
+        self::assertEquals(2, $result[0]->total);
     }
 }
