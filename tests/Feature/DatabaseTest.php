@@ -15,7 +15,7 @@ class DatabaseTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        DB::delete('delete from categories');
+        DB::delete("delete from categories");
     }
 
     public function testCrud()
@@ -27,7 +27,7 @@ class DatabaseTest extends TestCase
             "2020-10-10 10:10:10"
         ]);
 
-        $result = DB::select('select * from categories where id_categories = ?', [1]);
+        $result = DB::select("select * from categories where id_categories = ?", [1]);
 
         self::assertCount(1, $result);
         self::assertEquals(1, $result[0]->id_categories);
@@ -45,7 +45,7 @@ class DatabaseTest extends TestCase
             "created_at" => "2020-10-10 10:10:10",
         ]);
 
-        $result = DB::select('select * from categories where id_categories = ?', [1]);
+        $result = DB::select("select * from categories where id_categories = ?", [1]);
 
         self::assertCount(1, $result);
         self::assertEquals(1, $result[0]->id_categories);
@@ -72,7 +72,7 @@ class DatabaseTest extends TestCase
             ]);
         });
 
-        $result = DB::select('select * from categories');
+        $result = DB::select("select * from categories");
         self::assertCount(2, $result);
     }
 
@@ -98,7 +98,7 @@ class DatabaseTest extends TestCase
             //expected 
         }
 
-        $result = DB::select('select * from categories');
+        $result = DB::select("select * from categories");
         self::assertCount(0, $result);
     }
 
@@ -107,24 +107,24 @@ class DatabaseTest extends TestCase
         try {
             DB::beginTransaction();
             DB::insert("insert into categories(id_categories, name, description, created_at) values(?, ?, ?, ?)", [
-                    1,
-                    "Gadget",
-                    "Gadget Categories",
-                    "2020-10-10 10:10:10"
-                ]);
+                1,
+                "Gadget",
+                "Gadget Categories",
+                "2020-10-10 10:10:10"
+            ]);
 
-                DB::insert("insert into categories(id_categories, name, description, created_at) values(?, ?, ?, ?)", [
-                    2,
-                    "Food",
-                    "Food Categories",
-                    "2020-10-10 10:10:10"
-                ]);
-                DB::commit();
+            DB::insert("insert into categories(id_categories, name, description, created_at) values(?, ?, ?, ?)", [
+                2,
+                "Food",
+                "Food Categories",
+                "2020-10-10 10:10:10"
+            ]);
+            DB::commit();
         } catch (QueryException $error) {
             DB::rollBack();
         }
 
-        $result = DB::select('select * from categories');
+        $result = DB::select("select * from categories");
         self::assertCount(2, $result);
     }
 
@@ -133,37 +133,37 @@ class DatabaseTest extends TestCase
         try {
             DB::beginTransaction();
             DB::insert("insert into categories(id_categories, name, description, created_at) values(?, ?, ?, ?)", [
-                    1,
-                    "Gadget",
-                    "Gadget Categories",
-                    "2020-10-10 10:10:10"
-                ]);
+                1,
+                "Gadget",
+                "Gadget Categories",
+                "2020-10-10 10:10:10"
+            ]);
 
-                DB::insert("insert into categories(id_categories, name, description, created_at) values(?, ?, ?, ?)", [
-                    1,
-                    "Food",
-                    "Food Categories",
-                    "2020-10-10 10:10:10"
-                ]);
-                DB::commit();
+            DB::insert("insert into categories(id_categories, name, description, created_at) values(?, ?, ?, ?)", [
+                1,
+                "Food",
+                "Food Categories",
+                "2020-10-10 10:10:10"
+            ]);
+            DB::commit();
         } catch (QueryException $error) {
             DB::rollBack();
         }
 
-        $result = DB::select('select * from categories');
+        $result = DB::select("select * from categories");
         self::assertCount(0, $result);
     }
 
     public function testInsert()
     {
-        DB::table('categories')->insert([
-            'id_categories' => 1,
-            'name' => 'Gadget',
+        DB::table("categories")->insert([
+            "id_categories" => 1,
+            "name" => "Gadget",
         ]);
 
-        DB::table('categories')->insert([
-            'id_categories' => 2,
-            'name' => 'Food',
+        DB::table("categories")->insert([
+            "id_categories" => 2,
+            "name" => "Food",
         ]);
 
         $result = DB::select("select count(id_categories) as total from categories");
@@ -174,7 +174,7 @@ class DatabaseTest extends TestCase
     {
         $this->testInsert();
 
-        $collection = DB::table('categories')->select(['id_categories', 'name'])->get();
+        $collection = DB::table("categories")->select(["id_categories", "name"])->get();
         self::assertNotNull($collection);
 
         $collection->each(function ($item) {
@@ -218,10 +218,9 @@ class DatabaseTest extends TestCase
     {
         $this->insertCategories();
 
-        $collection = DB::table('categories')->where(function(Builder $builder){
-            $builder->where('id_categories', '=', 1);
-            $builder->orWhere('id_categories', '=', 2);
-
+        $collection = DB::table("categories")->where(function (Builder $builder) {
+            $builder->where("id_categories", "=", 1);
+            $builder->orWhere("id_categories", "=", 2);
         })->get();
 
         self::assertCount(2, $collection);
@@ -235,8 +234,8 @@ class DatabaseTest extends TestCase
         $this->insertCategories();
 
         $collection = DB::table("categories")
-        ->whereBetween("created_at", ["2020-09-10 10:10:10", "2020-11-10 10:10:10"])
-        ->get();
+            ->whereBetween("created_at", ["2020-09-10 10:10:10", "2020-11-10 10:10:10"])
+            ->get();
 
         self::assertCount(4, $collection);
         $collection->each(function ($item) {
@@ -248,7 +247,7 @@ class DatabaseTest extends TestCase
     {
         $this->insertCategories();
 
-        $collection = DB::table('categories')->whereIn("id_categories", [1,2])->get();
+        $collection = DB::table("categories")->whereIn("id_categories", [1, 2])->get();
 
         self::assertCount(2, $collection);
         $collection->each(function ($item) {
@@ -261,7 +260,7 @@ class DatabaseTest extends TestCase
         $this->insertCategories();
 
         $collection = DB::table("categories")
-        ->whereNotNull('description')->get();
+            ->whereNotNull("description")->get();
 
         self::assertCount(4, $collection);
         $collection->each(function ($item) {
@@ -274,12 +273,46 @@ class DatabaseTest extends TestCase
         $this->insertCategories();
 
         $collection = DB::table("categories")
-        ->whereDate("created_at", "2020-10-10")
-        ->get();
+            ->whereDate("created_at", "2020-10-10")
+            ->get();
 
         self::assertCount(4, $collection);
         $collection->each(function ($item) {
             Log::info(json_encode($item));
         });
     }
+
+    public function testUpdate()
+    {
+        $this->insertCategories();
+
+        DB::table("categories")->where("name", "=", "smartphone")->update([
+            "name" => "handphone"
+        ]);
+
+        $collection = DB::table("categories")->where("name", "=", "handphone")->get();
+        self::assertCount(1, $collection);
+        $collection->each(function ($item) {
+            Log::info(json_encode($item));
+        });
+    }
+
+    public function testUpsert()
+    {
+        DB::table("categories")->updateOrInsert([
+            "id_categories" => 5
+        ], [
+            "name" => "voucher",
+            "description" => "tiket and voucher",
+            "created_at" => "2020-10-10 10:10:10",
+        ]);
+
+        $collection = DB::table("categories")->where("name", "=", "voucher")->get();
+        self::assertCount(1, $collection);
+        $collection->each(function ($item) {
+            Log::info(json_encode($item));
+        });
+    }
+
+    
 }
