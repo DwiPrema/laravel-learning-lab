@@ -314,5 +314,14 @@ class DatabaseTest extends TestCase
         });
     }
 
-    
+    public function testIncrement()
+    {
+        DB::table("counters")->where('id', '=', 'sample')->increment("counter", 1);
+
+        $collection = DB::table("counters")->where('id', '=', 'sample')->get();
+        self::assertCount(1, $collection);
+        $collection->each(function ($item) {
+            Log::info(json_encode($item));
+        });
+    }
 }
